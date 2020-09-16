@@ -15,7 +15,7 @@ var config *json.Decoder
 
 func init() {
 	logger.Info("initializing config")
-	configFile, err := os.Open(os.Getenv(fileName))
+	configFile, err := os.Open("/Users/anuragcheela/go/src/github.com/AnuragCheela/users-api/config.json" /*os.Getenv(fileName)*/)
 	if err != nil {
 		logger.Info("error reading file")
 	}
