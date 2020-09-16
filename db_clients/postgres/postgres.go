@@ -10,17 +10,14 @@ import (
 	_ "github.com/lib/pq"
 )
 
-// const (
-// 	host     = "localhost"
-// 	port     = 5432
-// 	user     = "anuragcheela"
-// 	password = ""
-// 	dbname   = "users_db"
-// )
-
 var (
 	client *sql.DB
 )
+
+// GlobalConfig struct
+type GlobalConfig struct {
+	DbConfig DBConfig `json:"dbConfig"`
+}
 
 // DBConfig struct
 type DBConfig struct {
@@ -35,16 +32,16 @@ func init() {
 
 	logger.Info("init function of postgres started")
 
-	var dbConfig DBConfig
-	configError := config.GetDecodedConfig().Decode(&dbConfig)
+	var globalConfig GlobalConfig
+	configError := config.GetDecodedConfig().Decode(&globalConfig)
 	if configError != nil {
 		panic(configError)
 	}
-	logger.Info(fmt.Sprintf(" config is %+v", dbConfig))
+	logger.Info(fmt.Sprintf(" config is %+v", globalConfig.DbConfig))
 
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		dbConfig.Host, dbConfig.Port, dbConfig.User, dbConfig.Password, dbConfig.Dbname)
+		globalConfig.DbConfig.Host, globalConfig.DbConfig.Port, globalConfig.DbConfig.User, globalConfig.DbConfig.Password, globalConfig.DbConfig.Dbname)
 
 	var err error
 	client, err = sql.Open("postgres", psqlInfo)
