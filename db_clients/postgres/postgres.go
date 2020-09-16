@@ -16,7 +16,7 @@ var (
 
 // GlobalConfig struct
 type GlobalConfig struct {
-	DbConfig DBConfig `json:"dbConfig"`
+	DbConfig DBConfig `json:"postgres_config"`
 }
 
 // DBConfig struct

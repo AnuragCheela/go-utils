@@ -18,6 +18,7 @@ var (
 	log logger
 )
 
+// Logger interface
 type Logger interface {
 	Print(v ...interface{})
 	Printf(format string, v ...interface{})
@@ -69,6 +70,7 @@ func getOutput() string {
 	return output
 }
 
+// GetLogger Function
 func GetLogger() Logger {
 	return log
 }
@@ -85,11 +87,13 @@ func (l logger) Print(v ...interface{}) {
 	Info(fmt.Sprintf("%v", v))
 }
 
+// Info function
 func Info(msg string, tags ...zap.Field) {
 	log.log.Info(msg, tags...)
 	log.log.Sync()
 }
 
+// Error function
 func Error(msg string, err error, tags ...zap.Field) {
 	tags = append(tags, zap.NamedError("error", err))
 	log.log.Error(msg, tags...)

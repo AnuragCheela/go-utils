@@ -3,12 +3,13 @@ package config
 import (
 	"encoding/json"
 	"os"
-
-	"github.com/AnuragCheela/go-utils/logger"
 )
 
 const (
-	fileName = "CONFIG_FILE"
+	fileNameStage   = "CONFIG_DEV_FILE"
+	fileNameProd    = "CONFIG_DEV_FILE"
+	environment     = "SERVICE_ENV"
+	prodEnvironment = "prod"
 )
 
 var (
@@ -17,11 +18,13 @@ var (
 )
 
 func init() {
-	logger.Info("initializing config")
 	var err error
-	configFile, err = os.Open(os.Getenv(fileName))
+	if os.Getenv(environment) == prodEnvironment {
+		configFile, err = os.Open(os.Getenv(fileNameProd))
+	} else {
+		configFile, err = os.Open(os.Getenv(fileNameStage))
+	}
 	if err != nil {
-		logger.Info("error reading file")
 		panic(err)
 	}
 	config = json.NewDecoder(configFile)
