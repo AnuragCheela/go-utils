@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/AnuragCheela/go-utils/config"
+	"github.com/AnuragCheela/go-utils/logger"
 
 	_ "github.com/lib/pq"
 )
@@ -32,11 +33,14 @@ type DBConfig struct {
 
 func init() {
 
+	logger.Info("init function of postgres started")
+
 	var dbConfig DBConfig
 	configError := config.GetDecodedConfig().Decode(&dbConfig)
 	if configError != nil {
 		panic(configError)
 	}
+	logger.Info(fmt.Sprintf(" config is %+v", dbConfig))
 
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",

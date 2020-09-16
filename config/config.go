@@ -19,7 +19,7 @@ func init() {
 	if err != nil {
 		logger.Info("error reading file")
 	}
-	defer configFile.Close()
+	// defer configFile.Close()
 	config = json.NewDecoder(configFile)
 }
 
