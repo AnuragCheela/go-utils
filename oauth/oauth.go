@@ -40,7 +40,7 @@ func AuthenticateRequest(request *http.Request) resterrors.RestErr {
 
 	accessTokenID := strings.TrimSpace(request.URL.Query().Get(paramAccessToken))
 	if accessTokenID == "" {
-		return nil
+		return resterrors.NewBadRequestError("Access Token missing")
 	}
 	at, err := getAccessToken(accessTokenID)
 	if err != nil {
